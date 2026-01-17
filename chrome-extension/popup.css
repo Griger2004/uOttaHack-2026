@@ -53,47 +53,19 @@ label {
   font-weight: 600;
 }
 
-.title-display {
-  font-size: 1rem;
-  font-weight: 500;
-  color: #ffffff;
+.summary-display {
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  font-size: 0.9rem;
+  font-weight: 400;
+  color: #e8e8e8;
   line-height: 1.5;
   word-wrap: break-word;
-}
-
-.url-display {
-  font-size: 0.75rem;
-  color: #a0a0a0;
-  word-break: break-all;
-  line-height: 1.4;
-}
-
-.copy-button {
-  width: 100%;
-  padding: 12px 20px;
-  background: linear-gradient(135deg, #00d9ff 0%, #00a8cc 100%);
-  border: none;
-  border-radius: 10px;
-  color: #1a1a2e;
-  font-size: 0.9rem;
-  font-weight: 600;
-  cursor: pointer;
-  transition: all 0.3s ease;
-  box-shadow: 0 4px 15px rgba(0, 217, 255, 0.3);
-}
-
-.copy-button:hover {
-  transform: translateY(-2px);
-  box-shadow: 0 6px 20px rgba(0, 217, 255, 0.4);
-}
-
-.copy-button:active {
-  transform: translateY(0);
-}
-
-.copy-button.copied {
-  background: linear-gradient(135deg, #00ff88 0%, #00cc6a 100%);
-  box-shadow: 0 4px 15px rgba(0, 255, 136, 0.3);
+  min-height: 60px;
+  max-height: 300px;
+  overflow-y: auto;
+  background: rgba(0, 0, 0, 0.2);
+  padding: 12px;
+  border-radius: 8px;
 }
 
 .error {
@@ -107,7 +79,10 @@ label {
   50% { opacity: 1; }
 }
 
-.title-display:contains("Loading"),
-.url-display:contains("Loading") {
+.summary-display {
   animation: pulse 1.5s infinite;
+}
+
+.summary-display:not(:empty) {
+  animation: none;
 }
