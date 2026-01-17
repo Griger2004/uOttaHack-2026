@@ -1,0 +1,26 @@
+# Byte-compiled / optimized / DLL files
+__pycache__/
+*.py[cod]
+*$py.class
+
+# Virtual Environments
+venv/
+env/
+.venv/
+.python-version
+
+# Environment Variables (Keep your API keys safe!)
+.env
+
+# Distribution / packaging
+build/
+dist/
+*.egg-info/
+
+# IDE settings (VS Code, PyCharm, Mac)
+.vscode/
+.idea/
+.DS_Store
+
+# Jupyter Notebooks (if you use them)
+.ipynb_checkpoints
