@@ -1,76 +1,158 @@
 # Agentic Fake News Detector - Backend
 
-FastAPI backend for detecting fake news using a 3-step AI-powered pipeline.
+A FastAPI backend that uses a 3-step agentic pipeline to detect fake news in articles.
 
 ## Architecture
 
-1. **The Reader (Gemini)**: Extracts core claim from article
-2. **The Researcher (Serper + Yellowcake)**: Searches Google and scrapes trusted sources
-3. **The Judge (Gemini)**: Compares claims and returns verdict
+The backend follows a modular architecture with clear separation of concerns:
 
-## Quick Start
+```
+backend/
+├── main.py              # Application entry point & factory
+├── config.py            # Settings & environment configuration
+├── requirements.txt     # Python dependencies
+│
+├── schemas/             # Pydantic models for request/response
+│   ├── __init__.py
+│   └── verify.py        # Verification schemas
+│
+├── clients/             # External API integrations
+│   ├── __init__.py
+│   ├── gemini.py        # Google Gemini AI client
+│   ├── serper.py        # Serper (Google Search) client
+│   └── yellowcake.py    # Yellowcake web scraping client
+│
+├── services/            # Business logic layer
+│   ├── __init__.py
+│   ├── reader.py        # Step 1: Extract core claims
+│   ├── researcher.py    # Step 2: Search & scrape sources
+│   ├── judge.py         # Step 3: Compare & verdict
+│   └── pipeline.py      # Orchestrates the full pipeline
+│
+└── routers/             # API endpoint handlers
+    ├── __init__.py
+    ├── health.py        # Health check endpoints
+    └── verify.py        # /verify endpoint
+```
 
-### 1. Install Dependencies
+## The 3-Step Pipeline
+
+1. **The Reader** (`services/reader.py`)
+   - Analyzes the article text
+   - Extracts the core claim to verify
+   - Generates a concise search query
+
+2. **The Researcher** (`services/researcher.py`)
+   - Searches Google using the generated query
+   - Scrapes content from top results
+   - Compiles source material for comparison
+
+3. **The Judge** (`services/judge.py`)
+   - Compares the original article with scraped sources
+   - Calculates a trust score (0-100)
+   - Renders a verdict: "Fake", "True", or "Unverified"
+
+## Setup
+
+### 1. Create Virtual Environment
+
+```bash
+cd backend
+python -m venv venv
+source venv/bin/activate  # On Windows: venv\Scripts\activate
+```
+
+### 2. Install Dependencies
 
 ```bash
 pip install -r requirements.txt
 ```
 
-### 2. Set Up Environment Variables
+### 3. Configure Environment Variables
 
-Create a `.env` file (or export them):
+Create a `.env` file in the `backend/` directory:
 
-```bash
-export GEMINI_API_KEY="your_gemini_api_key"
-export YELLOWCAKE_API_KEY="your_yellowcake_api_key"
-export SERPER_API_KEY="your_serper_api_key"
+```env
+# Required API Keys
+GEMINI_API_KEY=your_gemini_api_key_here
+SERPER_API_KEY=your_serper_api_key_here
+YELLOWCAKE_API_KEY=your_yellowcake_api_key_here
+
+# Optional Settings
+DEBUG=false
 ```
 
-### 3. Run the Server
+### 4. Run the Server
 
 ```bash
 uvicorn main:app --reload
 ```
 
-Server will start at `http://localhost:8000`
+The API will be available at `http://localhost:8000`
 
 ## API Endpoints
 
-### POST `/verify`
+### Health Check
 
-Verify an article for fake news.
+```
+GET /
+```
+
+Returns API status and available endpoints.
+
+### Detailed Health
+
+```
+GET /health
+```
+
+Returns status of all configured services.
+
+### Verify Article
+
+```
+POST /verify
+```
 
 **Request Body:**
 ```json
 {
-  "article_text": "Pope Francis announced today that he is buying the New York Knicks..."
+  "article_text": "Your article text to verify..."
 }
 ```
 
 **Response:**
 ```json
 {
-  "trust_score": 15,
-  "verdict": "Fake",
-  "reasoning": "No credible news sources confirm this claim, and it contradicts Vatican policies.",
-  "search_query": "Pope Francis buying New York Knicks",
+  "trust_score": 75,
+  "verdict": "True",
+  "reasoning": "The claims are supported by multiple trusted sources.",
+  "search_query": "climate change research 2024",
   "sources_checked": 3
 }
 ```
 
-### GET `/`
+## API Documentation
 
-Health check endpoint.
-
-## Tech Stack
-
-- FastAPI
-- Pydantic
-- Google Gemini 1.5 Flash
-- Serper API (Google Search)
-- Yellowcake API (Web Scraping)
-- Requests
+- **Swagger UI**: http://localhost:8000/docs
+- **ReDoc**: http://localhost:8000/redoc
 
 ## Development
 
-View API docs at: `http://localhost:8000/docs`
+### Code Style
+
+The project follows standard Python conventions:
+- Type hints throughout
+- Docstrings for all public functions
+- Separation of concerns via modules
+
+### Adding New Features
+
+1. **New endpoint**: Add a router in `routers/`
+2. **New service**: Add business logic in `services/`
+3. **New external API**: Add a client in `clients/`
+4. **New models**: Add schemas in `schemas/`
+
+## License
+
+MIT License
