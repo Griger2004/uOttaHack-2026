@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Page Title Extractor</title>
+  <link rel="stylesheet" href="popup.css">
+</head>
+<body>
+  <div class="container">
+    <header>
+      <h1>Page Info</h1>
+    </header>
+    
+    <main>
+      <section class="title-section">
+        <label>Page Title</label>
+        <div id="page-title" class="title-display">
+          Loading...
+        </div>
+      </section>
+      
+      <section class="url-section">
+        <label>URL</label>
+        <div id="page-url" class="url-display">
+          Loading...
+        </div>
+      </section>
+      
+      <button id="copy-btn" class="copy-button">
+        Copy Title
+      </button>
+    </main>
+  </div>
+  
+  <script src="popup.js"></script>
+</body>
+</html>
