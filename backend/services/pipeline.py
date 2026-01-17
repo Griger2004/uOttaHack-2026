@@ -39,7 +39,9 @@ class VerificationPipeline:
 
         # Step 2: Research the claim
         print("Step 2: Researching claim...")
-        scraped_sources, sources_count = self.researcher.research_claim(search_query)
+        scraped_sources, sources_count = await self.researcher.research_claim(
+            search_query
+        )
         print(f"Scraped {len(scraped_sources)} characters from {sources_count} sources")
 
         # Step 3: Judge the article

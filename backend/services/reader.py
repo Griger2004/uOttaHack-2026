@@ -38,11 +38,12 @@ class ReaderService:
             Exception: If Gemini fails to generate a response.
         """
         prompt = self.PROMPT_TEMPLATE.format(article_text=article_text)
-
+        print(f"🔍 DEBUG: Generating prompt: {prompt}")
         response = gemini_client.generate(prompt)
-
+        print(f"🔍 DEBUG: Gemini response: {response}")
         # Clean up the response - remove quotes and extra whitespace
         search_query = response.replace('"', "").replace("'", "").strip()
+        print(f"🔍 DEBUG: Cleaned search query: {search_query}")
 
         return search_query
 

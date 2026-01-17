@@ -16,16 +16,16 @@ class SerperClient:
         self.api_key = settings.serper_api_key
         self.timeout = settings.request_timeout
 
-    def search(self, query: str, num_results: int = None) -> List[str]:
+    def search(self, query: str, num_results: int = None) -> List[dict]:
         """
-        Search Google using Serper API and return URLs.
+        Search Google using Serper API and return rich context for each result.
 
         Args:
             query: The search query.
             num_results: Number of results to return (default from settings).
 
         Returns:
-            List of URLs from search results.
+            List of dicts containing link, title, snippet, and date for each result.
         """
         if num_results is None:
             num_results = settings.search_results_limit
@@ -49,14 +49,19 @@ class SerperClient:
             response.raise_for_status()
             data = response.json()
 
-            # Extract URLs from organic results
-            urls = []
+            # Extract rich context from organic results
+            results = []
             if "organic" in data:
                 for result in data["organic"][:num_results]:
                     if "link" in result:
-                        urls.append(result["link"])
+                        results.append({
+                            "link": result["link"],
+                            "title": result.get("title", ""),
+                            "snippet": result.get("snippet", ""),
+                            "date": result.get("date", "Unknown date"),
+                        })
 
-            return urls
+            return results
 
         except requests.RequestException as e:
             print(f"Error searching Google: {e}")

@@ -4,6 +4,7 @@ Compares the article with sources and renders a verdict.
 """
 
 import json
+from datetime import datetime
 from schemas.verify import JudgmentResult
 from clients.gemini import gemini_client
 
@@ -14,8 +15,11 @@ class JudgeService:
     Uses Gemini to analyze and compare content.
     """
 
-    PROMPT_TEMPLATE = """You are a fact-checking judge. Compare the ORIGINAL ARTICLE with information from TRUSTED SOURCES below.
+    # 2. UPDATE THE TEMPLATE TO INCLUDE CURRENT DATE
+    PROMPT_TEMPLATE = """You are a fact-checking judge. 
+Current Date: {current_date}
 
+Compare the ORIGINAL ARTICLE with information from TRUSTED SOURCES below.
 Analyze whether the claims in the original article are supported by the trusted sources.
 
 ORIGINAL ARTICLE:
@@ -53,6 +57,7 @@ Output ONLY the JSON object, no other text."""
             JudgmentResult containing trust_score, verdict, and reasoning.
         """
         prompt = self.PROMPT_TEMPLATE.format(
+            current_date=datetime.now().strftime("%Y-%m-%d"),  # <--- Add this line
             original_article=original_article,
             scraped_sources=scraped_sources,
         )
