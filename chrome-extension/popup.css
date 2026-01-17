@@ -1,0 +1,113 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  background: linear-gradient(135deg, #1a1a2e 0%, #16213e 50%, #0f3460 100%);
+  min-width: 320px;
+  color: #e8e8e8;
+}
+
+.container {
+  padding: 20px;
+}
+
+header {
+  text-align: center;
+  margin-bottom: 20px;
+  padding-bottom: 15px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+header h1 {
+  font-size: 1.4rem;
+  font-weight: 600;
+  color: #00d9ff;
+  text-shadow: 0 0 20px rgba(0, 217, 255, 0.3);
+}
+
+main {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+section {
+  background: rgba(255, 255, 255, 0.05);
+  border-radius: 12px;
+  padding: 14px;
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  backdrop-filter: blur(10px);
+}
+
+label {
+  display: block;
+  font-size: 0.7rem;
+  text-transform: uppercase;
+  letter-spacing: 1.5px;
+  color: #00d9ff;
+  margin-bottom: 8px;
+  font-weight: 600;
+}
+
+.title-display {
+  font-size: 1rem;
+  font-weight: 500;
+  color: #ffffff;
+  line-height: 1.5;
+  word-wrap: break-word;
+}
+
+.url-display {
+  font-size: 0.75rem;
+  color: #a0a0a0;
+  word-break: break-all;
+  line-height: 1.4;
+}
+
+.copy-button {
+  width: 100%;
+  padding: 12px 20px;
+  background: linear-gradient(135deg, #00d9ff 0%, #00a8cc 100%);
+  border: none;
+  border-radius: 10px;
+  color: #1a1a2e;
+  font-size: 0.9rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  box-shadow: 0 4px 15px rgba(0, 217, 255, 0.3);
+}
+
+.copy-button:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px rgba(0, 217, 255, 0.4);
+}
+
+.copy-button:active {
+  transform: translateY(0);
+}
+
+.copy-button.copied {
+  background: linear-gradient(135deg, #00ff88 0%, #00cc6a 100%);
+  box-shadow: 0 4px 15px rgba(0, 255, 136, 0.3);
+}
+
+.error {
+  color: #ff6b6b;
+  font-style: italic;
+}
+
+/* Loading animation */
+@keyframes pulse {
+  0%, 100% { opacity: 0.6; }
+  50% { opacity: 1; }
+}
+
+.title-display:contains("Loading"),
+.url-display:contains("Loading") {
+  animation: pulse 1.5s infinite;
+}
